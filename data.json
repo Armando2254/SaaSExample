@@ -1,0 +1,24 @@
+{
+  "users": {
+    "ana": {
+      "username": "ana",
+      "name": "Ana Martínez",
+      "bio": "Desarrolladora Full Stack · Apasionada por la nube y el código limpio",
+      "link1": { "label": "GitHub", "url": "https://github.com/" },
+      "link2": { "label": "", "url": "" },
+      "color": "emerald",
+      "plan": "free",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    },
+    "carlos": {
+      "username": "carlos",
+      "name": "Carlos Ramírez",
+      "bio": "Diseñador UX/UI y freelance · Creo interfaces que se sienten bien",
+      "link1": { "label": "Instagram", "url": "https://instagram.com/" },
+      "link2": { "label": "Portafolio", "url": "https://www.behance.net/" },
+      "color": "violet",
+      "plan": "pro",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    }
+  }
+}

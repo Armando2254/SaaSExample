@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CardSaaS · Tarjetas de presentación digitales</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="min-h-screen antialiased text-slate-100">
+
+  <!-- ===================== PANTALLA DE ACCESO ===================== -->
+  <main id="view-login" class="flex min-h-screen items-center justify-center px-5 py-12">
+    <div class="grid w-full max-w-5xl items-center gap-12 lg:grid-cols-2">
+      <section>
+        <div class="inline-flex items-center gap-3 font-semibold tracking-wide text-emerald-400">
+          <span class="grid h-9 w-9 place-items-center rounded-xl border border-emerald-500/30 bg-emerald-500/15">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h4M6.5 16c.6-1.2 1.6-1.8 2.5-1.8s1.9.6 2.5 1.8"/></svg>
+          </span>
+          CardSaaS
+        </div>
+        <h1 class="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
+          Tu tarjeta de presentación digital, <span class="text-emerald-400">lista en segundos.</span>
+        </h1>
+        <p class="mt-5 text-lg text-slate-400">
+          Un ejemplo vivo de Software como Servicio: sin instalar nada, cada usuario con su propio espacio y un plan que se activa con un clic.
+        </p>
+        <ul class="mt-8 grid gap-3 text-sm sm:grid-cols-3">
+          <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+            <p class="font-semibold text-emerald-300">Sin instalación</p>
+            <p class="mt-1 text-slate-400">Todo corre desde el navegador.</p>
+          </li>
+          <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+            <p class="font-semibold text-emerald-300">Multiusuario</p>
+            <p class="mt-1 text-slate-400">Cada cliente, su espacio aislado.</p>
+          </li>
+          <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+            <p class="font-semibold text-emerald-300">Suscripción</p>
+            <p class="mt-1 text-slate-400">Gratis o Pro, al instante.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2 class="text-xl font-bold">Entra al instante</h2>
+        <p class="mt-1 text-sm text-slate-400">Usuarios de prueba, sin contraseña.</p>
+
+        <div class="mt-5 grid grid-cols-2 gap-3">
+          <button class="btn btn-soft" data-quick="ana">Entrar como Ana</button>
+          <button class="btn btn-soft" data-quick="carlos">Entrar como Carlos</button>
+        </div>
+
+        <div class="my-6 flex items-center gap-3 text-xs uppercase tracking-wider text-slate-500">
+          <span class="h-px flex-1 bg-slate-800"></span>o crea tu cuenta<span class="h-px flex-1 bg-slate-800"></span>
+        </div>
+
+        <form id="form-register" novalidate>
+          <label class="label" for="reg-username">Nombre de usuario</label>
+          <div class="flex gap-3">
+            <div class="relative flex-1">
+              <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500">/u/</span>
+              <input id="reg-username" class="field" style="padding-left: 2.2rem" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="tunombre" />
+            </div>
+            <button type="submit" class="btn btn-primary">Crear</button>
+          </div>
+          <p class="mt-2 text-xs text-slate-500">3 a 20 caracteres: minúsculas, números o guion bajo.</p>
+        </form>
+
+        <p id="login-error" class="mt-4 hidden text-sm text-rose-400"></p>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===================== PANEL DE CONTROL ===================== -->
+  <div id="view-dash" class="hidden">
+    <header class="sticky top-0 z-20 border-b border-slate-800/80 bg-slate-950/70 backdrop-blur">
+      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
+        <div class="flex items-center gap-3">
+          <span class="font-semibold tracking-wide text-emerald-400">CardSaaS</span>
+          <span id="tenant-chip" class="hidden rounded-full border border-slate-700 bg-slate-900 px-3 py-1 text-xs text-slate-300 sm:inline"></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="plan-badge-top"></span>
+          <button id="btn-logout" class="btn btn-ghost !py-2">Salir</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto grid max-w-6xl gap-6 px-5 py-8 lg:grid-cols-5">
+      <div class="space-y-6 lg:col-span-3">
+
+        <!-- Suscripción -->
+        <section class="panel">
+          <div class="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p class="label" style="margin-bottom: 0.6rem">Tu suscripción</p>
+              <div class="flex items-center gap-3">
+                <span id="plan-badge"></span>
+                <span id="plan-price" class="text-sm text-slate-400"></span>
+              </div>
+            </div>
+            <button id="btn-plan" class="btn"></button>
+          </div>
+          <ul id="plan-features" class="mt-5 grid gap-3 text-sm sm:grid-cols-3"></ul>
+        </section>
+
+        <!-- Edición de la tarjeta -->
+        <form id="form-profile" class="panel space-y-5" novalidate>
+          <h2 class="text-lg font-bold">Tu tarjeta</h2>
+
+          <div>
+            <label class="label" for="f-name">Nombre completo</label>
+            <input id="f-name" class="field" maxlength="60" placeholder="Ana Martínez" />
+          </div>
+
+          <div>
+            <label class="label" for="f-bio">Profesión / Bio</label>
+            <textarea id="f-bio" class="field" rows="2" maxlength="140" placeholder="Desarrolladora Full Stack"></textarea>
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-5">
+            <div class="sm:col-span-2">
+              <label class="label" for="f-l1-label">Enlace principal · etiqueta</label>
+              <input id="f-l1-label" class="field" maxlength="24" placeholder="GitHub" />
+            </div>
+            <div class="sm:col-span-3">
+              <label class="label" for="f-l1-url">Enlace principal · URL</label>
+              <input id="f-l1-url" class="field" maxlength="200" placeholder="github.com/tu-usuario" />
+            </div>
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-5">
+            <div class="sm:col-span-2">
+              <label class="label" for="f-l2-label">Segundo enlace · etiqueta<span class="pro-tag">PRO</span></label>
+              <input id="f-l2-label" class="field" maxlength="24" placeholder="Portafolio" />
+            </div>
+            <div class="sm:col-span-3">
+              <label class="label" for="f-l2-url">Segundo enlace · URL<span class="pro-tag">PRO</span></label>
+              <input id="f-l2-url" class="field" maxlength="200" placeholder="miportafolio.com" />
+            </div>
+          </div>
+
+          <div>
+            <p class="label">Color de tema</p>
+            <div id="swatches" class="space-y-3"></div>
+          </div>
+
+          <div class="flex justify-end">
+            <button id="btn-save" type="submit" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Vista previa y enlace público -->
+      <aside class="lg:col-span-2">
+        <div class="space-y-4 lg:sticky lg:top-24">
+          <section class="panel">
+            <div class="mb-4 flex items-center justify-between">
+              <p class="label" style="margin-bottom: 0">Vista previa en vivo</p>
+              <span class="live-dot text-xs text-slate-500">se actualiza al escribir</span>
+            </div>
+            <div id="preview"></div>
+          </section>
+
+          <section class="panel">
+            <p class="label">Tu tarjeta pública</p>
+            <p id="public-url" class="break-all text-sm text-emerald-300"></p>
+            <div class="mt-4 flex gap-3">
+              <a id="btn-open" target="_blank" rel="noopener" class="btn btn-primary flex-1">Abrir en pestaña nueva</a>
+              <button id="btn-copy" type="button" class="btn btn-ghost">Copiar</button>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div id="toasts" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3"></div>
+
+  <script src="/card-render.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
